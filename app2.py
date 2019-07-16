@@ -1,71 +1,135 @@
+import util
 import ogr
-import os
 
-def calculate_crossing_paths(road_filename = 'data/app2/olemiss/roads.shp', roadintersections_filename = 'data/app2/olemiss/rint.shp', driver_name = 'ESRI Shapefile'):
+def CalculateRoute(roadsName:str, binsName:str, configName:str, configuration:int) -> None:
     '''
-        This function takes the road layer and computes the crossings of roads in a relational way. Crossings are
-        marked on map and intialized with attributes denoting which roads are crossing.
-
-        For showing direction function marks each crossing twice.
-
-        Fields of the output file:
-            "id"     : FID of the marking
-            "name1"  : Name of the first road
-            "name2"  : Name of the second road
-            geometry : POINT
+        Calculates the most officient route among the containers. The input file specifications are given.
+        Imortant notice that input files ahould be in spatial reference system "WGS 84 / Pseudo-Mercator" (EPSG-3857)
         
-        Required fields of input file:
-            "id"     : FID for easy use
-            "name"   : Name of the road
-            geometry : LINE
+        Road File
+            Geometry    : Line (MultiLineString)
+            Fields      : name:str
+        
+        Bins File
+            Geometry    : Point
+            Fields      : full:int name:str
+
+        Config File
+            Geometry    : Point
+            Fields      : name:str startpoint:str{true/false} pairid:int
+        
+        The output files are given, all output files are located in out directory.
+
+        Intersection File:
+            Geometry    : Point
+            Fields      : name1:str name2:str
+        
+        Attached Bin File
+            Geometry    : Point
+            Fields      : binname:str roadname:str index:int
+
+        Route File
+            Geometry    : Line (MultiLineString)
+            Fields      : length:real
+
     '''
 
-    driver = ogr.GetDriverByName(driver_name)
+    # Initialize the output file names
+    nbinsName               = 'data/app2/olemiss/out/newbins.shp'
+    crossesName             = 'data/app2/olemiss/out/crosses.shp'
+    routeName               = 'data/app2/olemiss/out/route.shp'
 
-    if os.path.exists(roadintersections_filename):
-        driver.DeleteDataSource(roadintersections_filename)
+    # Create DataSource objects for output files
+    nbinsDS                 = util.CreateDataSource(nbinsName)
+    crossesDS               = util.CreateDataSource(crossesName)
+    routeDS                 = util.CreateDataSource(routeName)
 
-    roadintersections_ds = driver.CreateDataSource(roadintersections_filename)
-    road_ds = ogr.Open(road_filename, 0)
+    # Create layers
+    nbinsLayer              = util.CreateLayer(nbinsDS, 'newbins', ogr.wkbPoint,    
+                                binname=ogr.OFTString,  
+                                roadname=ogr.OFTString, 
+                                index=ogr.OFTInteger)
+    crossesLayer            = util.CreateLayer(crossesDS, 'crosses', ogr.wkbPoint,  
+                                name1=ogr.OFTString, 
+                                name2=ogr.OFTString)
+    routeLayer              = util.CreateLayer(routeDS, 'route', ogr.wkbLineString, 
+                                length=ogr.OFTReal)
 
-    road_layer = road_ds.GetLayer()
+    # After creating the layers load the existing datasources
+    roadsDS                 = util.OpenDataSource(roadsName)
+    binsDS                  = util.OpenDataSource(binsName)
+    configDS                = util.OpenDataSource(configName)
 
-    # creates a layer with the same spatial reference system
-    roadintersections_layer = roadintersections_ds.CreateLayer('connections', road_layer.GetSpatialRef(), ogr.wkbPoint)
+    # And layers
+    roadsLayer : ogr.Layer  = roadsDS.GetLayer()
+    binsLayer : ogr.Layer   = binsDS.GetLayer()
+    configLayer : ogr.Layer = configDS.GetLayer()
 
-    # create fields
-    roadintersections_layer.CreateField(ogr.FieldDefn('id', ogr.OFTInteger))
-    roadintersections_layer.CreateField(ogr.FieldDefn('name1', ogr.OFTString))
-    roadintersections_layer.CreateField(ogr.FieldDefn('name2', ogr.OFTString))
+    # First misson is to calculate the crossings
+    roadList = [road for road in roadsLayer]
 
-    road_list = [road for road in road_layer]
+    roadsLayer.ResetReading()
 
-    roadintersections_layer.ResetReading()
+    crossHandle = util.CreateFeatureHandle(crossesLayer)
 
-    temp_feature = ogr.Feature(roadintersections_layer.GetLayerDefn())
+    for roadOne in roadList:
+        for roadTwo in roadList:
+            if roadOne is not roadTwo and roadOne.geometry().Intersects(roadTwo.geometry()):
+                crossGeometry : ogr.Geometry = roadOne.geometry().Intersection(roadTwo.geometry())
+                crossGeometries = list()
 
-    n = 0
+                name1 = roadOne.GetField('name')
+                name2 = roadTwo.GetField('name')
 
-    for road_one in road_list:
-        for road_two in road_list:
-            if road_one is not road_two and road_one.geometry().Intersects(road_two.geometry()):
-                # print(road_one.GetField('name'), 'crosses', road_two.GetField('name'))
+                if crossGeometry.GetGeometryType() == ogr.wkbMultiPoint:
+                    for i in range(crossGeometry.GetGeometryCount()):
+                        crossGeometries.append(crossGeometry.GetGeometryRef(i).Clone())
+                else:
+                    crossGeometries.append(crossGeometry)
+                
+                for crosses in crossGeometries:
+                    util.CreateFeature(crossHandle, crossesLayer, crosses, 
+                        name1=name1, 
+                        name2=name2)
+    # Done calculation!
 
-                temp_feature.SetField('id', n)
-                temp_feature.SetField('name1', road_one.GetField('name'))
-                temp_feature.SetField('name2', road_two.GetField('name'))
 
-                section = road_one.geometry().Intersection(road_two.geometry())
+    # Second misson is to calculate the points which containers are close to
+    nbinHandle = util.CreateFeatureHandle(nbinsLayer)
 
-                if section.GetGeometryType() == ogr.wkbMultiPoint:
-                    section = section.GetGeometryRef(0).Clone()
+    for binn in binsLayer:
+        binnPoint = binn.geometry().GetX(), binn.geometry().GetY()
+        RECT_HALF = 100.000
+        x, y = binnPoint
 
-                temp_feature.SetGeometry(section)
+        roadsLayer.SetSpatialFilterRect(x - RECT_HALF, y - RECT_HALF, x + RECT_HALF, y + RECT_HALF)
 
-                roadintersections_layer.CreateFeature(temp_feature)
-                n += 1
+        closestRoadPoint = None
+        closestDistanceSquare = RECT_HALF ** 2
+        closestRoadPointIndex = 0
+        closestRoadName = ''
+        
+        for road in roadList:
+            for i, roadPoint in enumerate(road.geometry().GetPoints()):
+                distance = __distance_square(roadPoint, binnPoint)
 
-    del roadintersections_ds
+                if closestDistanceSquare > distance:
+                    closestDistanceSquare = distance
+                    closestRoadPoint = roadPoint
+                    closestRoadPointIndex = i
+                    closestRoadName = road.GetField('name')
 
-    print('Computation complete!')
-    print('There are', n, 'intersections')
+        if closestRoadPoint is None:
+            raise Exception('Cannot find a route to the container! Maybe to far away from any road?')
+    
+        rx, ry = closestRoadPoint
+        closestRoadGeometry = ogr.CreateGeometryFromWkt("POINT ({} {})".format(rx, ry))
+        util.CreateFeature(nbinHandle, nbinsLayer, closestRoadGeometry, 
+            binname=binn.GetField('name'), 
+            roadname=closestRoadName, 
+            index=closestRoadPointIndex)
+
+
+
+def __distance_square(point1 : (float, float), point2 : (float, float)) -> float:
+    return (point1[1] - point2[1]) ** 2 + (point1[0] - point2[0]) ** 2

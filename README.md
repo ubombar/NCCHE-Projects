@@ -5,3 +5,6 @@ For installation you need to setup the installation prosedure on book "Geoproces
 
 ## APP1
 Finds the place, person located by examining the data.
+
+## APP2
+Finds the optimal path for collecting trash. Input files are in the data/app2 folder. Detailed explanation will be published after the end of the subspoject.

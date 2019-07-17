@@ -128,7 +128,9 @@ def CalculateRoute(roadsName:str, binsName:str, configName:str, configuration:in
             binname=binn.GetField('name'), 
             roadname=closestRoadName, 
             index=closestRoadPointIndex)
-
+        
+        # Now add the all points to a database and then connect them
+        # NOT IMPLEMENTED YET
 
 
 def __distance_square(point1 : (float, float), point2 : (float, float)) -> float:

@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "easy_startstop",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } },
+"features": [
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 0 }, "geometry": { "type": "Point", "coordinates": [ -9968242.566634705290198, 4078300.089735324028879 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 1 }, "geometry": { "type": "Point", "coordinates": [ -9968405.833561610430479, 4077104.033724682405591 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 2 }, "geometry": { "type": "Point", "coordinates": [ -9966615.239675862714648, 4077094.73676785081625 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 3 }, "geometry": { "type": "Point", "coordinates": [ -9967445.545079855248332, 4078611.622433878481388 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 4 }, "geometry": { "type": "Point", "coordinates": [ -9965948.7350299991667, 4077892.03797512780875 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 5 }, "geometry": { "type": "Point", "coordinates": [ -9966871.835684414952993, 4077992.822797774337232 ] } },
+{ "type": "Feature", "properties": { "pairid": 0, "waypoint": 6 }, "geometry": { "type": "Point", "coordinates": [ -9967232.557609478011727, 4077924.025317221414298 ] } },
+{ "type": "Feature", "properties": { "pairid": 1, "waypoint": 0 }, "geometry": { "type": "Point", "coordinates": [ -9968239.708564234897494, 4078300.842598798684776 ] } },
+{ "type": "Feature", "properties": { "pairid": 1, "waypoint": 1 }, "geometry": { "type": "Point", "coordinates": [ -9965960.094749150797725, 4077876.90136728156358 ] } }
+]
+}

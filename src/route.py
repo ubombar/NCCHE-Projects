@@ -1,5 +1,4 @@
-import util
-import graph
+import util, graph
 import ogr
 
 def MakeRoute(config=0, saveGraph=True) -> graph.RoadGraph:
@@ -12,13 +11,13 @@ def MakeRoute(config=0, saveGraph=True) -> graph.RoadGraph:
     # NEIGBOUR_LIMIT = 3 # maybe next iteration use this to have a better graph maker
 
     # loading the variables
-    roadsDataSource = util.OpenDataSource('graphdata/easy_roads.geojson')
+    roadsDataSource = util.OpenDataSource('data/route/easy_roads.geojson')
     roadsLayer = util.GetLayer(roadsDataSource)
 
-    configDataSource = util.OpenDataSource('graphdata/easy_startstop.geojson')
+    configDataSource = util.OpenDataSource('data/route/easy_startstop.geojson')
     configLayer = util.GetLayer(configDataSource)
 
-    allpointsDatasource = util.CreateDataSource('graphdata/temp/allpoints.shp')
+    allpointsDatasource = util.CreateDataSource('data/route/temp/allpoints.shp')
     allpointsLayer = util.CreateLayer(allpointsDatasource, 'allpoints', ogr.wkbPoint, ALLPOINTS_FIELDS)
     allpointsHandle = util.CreateFeatureHandle(allpointsLayer)
 
@@ -73,7 +72,7 @@ def MakeRoute(config=0, saveGraph=True) -> graph.RoadGraph:
 
         roadsLayer.ResetReading()
     if saveGraph:
-        util.SaveGraphOnFile(roadgraph, 'graphdata/temp/graph.shp')
+        util.SaveGraphOnFile(roadgraph, 'data/route/temp/graph.shp')
     
     configLayer.SetAttributeFilter('pairid={}'.format(config))
     configGraphIDList = list()
@@ -83,13 +82,13 @@ def MakeRoute(config=0, saveGraph=True) -> graph.RoadGraph:
         configGraphIDList.append(allpointsLayer.GetNextFeature().GetField('graphid'))
     allpointsLayer.ResetReading()
 
+    print('Preprocessing Done!')
+
     routeList = list()
     
     for i in range(1, len(configGraphIDList)):
         routeList.append(roadgraph.shortestPath(configGraphIDList[i - 1], configGraphIDList[i]))
     
-    util.SaveRoutes(roadgraph, routeList, 'graphdata/out/route.geojson')
+    util.SaveRoutes(roadgraph, routeList, 'data/route/out/route.geojson')
 
-
-
-    print('DONE!')
+    print('Shortest Path Founded!')

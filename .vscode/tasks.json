@@ -6,7 +6,7 @@
         {
             "label": "Run Python File",
             "type": "shell",
-            "command": "clear && /home/ubombar/miniconda3/bin/python /home/ubombar/Documents/Development/NCCHE-Projects/main.py",
+            "command": "clear && python3 src/main.py",
             "group": {
                 "kind": "build",
                 "isDefault": true

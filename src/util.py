@@ -132,6 +132,9 @@ def OpenDataSource(path : str, w : int = 0) -> ogr.DataSource:
     
     return datasource
 
+def OpenLayerDirectly(path : str, w : int = 0, arg = 0) -> ogr.Layer:
+    return GetLayer(OpenDataSource(path, w), arg)
+
 def GetLayer(ds : ogr.DataSource, arg = 0) -> ogr.Layer:
     '''
         author : Ufuk Bombar

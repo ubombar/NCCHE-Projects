@@ -92,3 +92,9 @@ def MakeRoute(config=0, saveGraph=True) -> graph.RoadGraph:
     util.SaveRoutes(roadgraph, routeList, 'data/route/out/route.geojson')
 
     print('Shortest Path Founded!')
+
+def MakeOptimizedRoute():
+    optRoadsLayer = util.OpenLayerDirectly('~/Documents/qgis/proper road index/test/optimized_roads.shp')
+    optJunctLayer = util.OpenLayerDirectly('~/Documents/qgis/proper road index/test/optimized_junctions.shp')
+
+    

@@ -1,7 +1,6 @@
 import ogr
 import osr
 import os
-import graph
 
 class GeometryIterator:
     def __init__(self, geometry : ogr.Geometry, iterate : bool = True):
@@ -49,6 +48,32 @@ class PointIterator:
         else:
             self.i = 0
             raise StopIteration
+
+def GetPointGeomOfLineGeom(geom : ogr.Geometry, index : int) -> ogr.Geometry:
+    ngeom = ogr.Geometry(ogr.wkbPoint)
+
+    if index == -1:
+        index = geom.GetPointCount() - 1
+
+    ngeom.AddPoint(*geom.GetPoint(index))
+
+    return ngeom
+
+def GeometryToPoint(geom : ogr.Geometry, index : int = 0) -> tuple:
+    if index == -1:
+        index = geom.GetPointCount() - 1
+    
+    if geom.GetGeometryType() == ogr.wkbPoint:
+        return geom.GetX(), geom.GetY()
+    return None
+
+def MergePointGeoms(*geoms) -> ogr.Geometry:
+    line = ogr.Geometry(ogr.wkbLineString)
+
+    for geo in geoms:
+        line.AddPoint(geo.GetX(), geo.GetY())
+    
+    return line
 
 
 def CreateDataSource(path : str, driver : str = 'ESRI Shapefile', override : bool = True) -> ogr.DataSource:
@@ -143,103 +168,3 @@ def GetLayer(ds : ogr.DataSource, arg = 0) -> ogr.Layer:
     '''
 
     return ds.GetLayer(arg)
-
-def SaveGraphOnFile(rgraph : graph.RoadGraph, path : str) -> bool:
-    '''
-        author : Ufuk Bombar
-
-        This function saves the graph in a shape file
-    '''
-
-    if rgraph is None or path is None:
-        return False
-
-    connected_ds = CreateDataSource(path)
-    connected_ly = CreateLayer(connected_ds, 'connected', ogr.wkbLineString, 
-        {   
-            'graphid1':ogr.OFTString, 
-            'graphid2':ogr.OFTString, 
-            'distance':ogr.OFTReal
-        })
-    connected_hd = CreateFeatureHandle(connected_ly)
-
-    for parent, children in rgraph.graph.items():
-        for child in children:
-            geom = ogr.Geometry(ogr.wkbLineString)
-            geom.AddPoint(*rgraph.getNode(parent).getAsPoint())
-            geom.AddPoint(*rgraph.getNode(child).getAsPoint())
-
-            dis = rgraph.getWeight(parent, child)
-            CreateFeature(connected_hd, connected_ly, geom, graphid1=parent, graphid2=child, distance=dis)
-    
-    return True
-
-def SaveRoutes(graph : graph.RoadGraph, routeList : list(), path : str, dtype : str = 'geojson') -> None:
-    '''
-        author Ufuk Bombar
-
-        This function saves the routs
-    '''
-
-    if routeList is None or path is None:
-        return False
-
-    routedataSource = CreateDataSource(path, dtype)
-    routeLayer = CreateLayer(routedataSource, 'route', ogr.wkbLineString, {})
-    routeHandle = CreateFeatureHandle(routeLayer)
-    
-    for route in routeList:
-        routeGeometry = ogr.Geometry(ogr.wkbLineString)
-
-        for nodeIndex in route: 
-            routeGeometry.AddPoint(*graph.getNode(nodeIndex).getAsPoint())
-        
-        CreateFeature(routeHandle, routeLayer, routeGeometry)
-
-def GetGeometryIterator(geom : ogr.Geometry):
-    return iter(GeometryIterator(geom))
-
-def GetPointIterator(geom : ogr.Geometry):
-    return iter(PointIterator(geom))
-
-def GetGeometryEnumerator(geom : ogr.Geometry):
-    return iter(GeometryIterator(geom, False))
-
-def GetPointEnumerator(geom : ogr.Geometry):
-    return iter(PointIterator(geom, False))
-
-'''
-            elif j == 0 or j == linegeom.GetPointCount() - 1: # runtime will be O(2nk)
-                # do spatial filtering
-                spatialfilter = pointgeom.Clone().Buffer(BUFFER_RADIUS)
-
-                easyroads_ly.SetSpatialFilter(spatialfilter)                
-
-                for filteredroad in easyroads_ly:
-                    filteredroadfid = filteredroad.GetFID()
-
-                    allpoints_ly.ResetReading()
-                    allpoints_ly.SetAttributeFilter('roadfid = {}'.format(filteredroadfid))
-                    # allpoints_ly.SetSpatialFilter(spatialfilter)
-                    x, y = point
-                    allpoints_ly.SetSpatialFilterRect(x - BUFFER_RADIUS, y - BUFFER_RADIUS, x + BUFFER_RADIUS, y + BUFFER_RADIUS)
-
-                    shortestdistance = 10 * BUFFER_RADIUS
-                    shortestpointfeature = None
-
-                    for filteredpoint in allpoints_ly:
-                        if idx != filteredpoint.GetField('graphid'):
-                            distancetmp = filteredpoint.geometry().Distance(pointgeom)
-                            print(distancetmp, shortestdistance)
-
-                            if shortestdistance > distancetmp:
-                                shortestdistance = distancetmp
-                                shortestpointfeature = filteredpoint
-                        
-                    if shortestpointfeature is not None:
-                        print('{} and {} is connected!'.format(idx, shortestpointfeature.GetField('graphid')))
-                        roadgraph.addConnection(idx, shortestpointfeature.GetField('graphid'))
-                    
-                    print()
-                easyroads_ly.ResetReading()
-'''

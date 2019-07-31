@@ -187,6 +187,7 @@ class MapperGraph:
                 if adj in visited:
                     continue
                 
+                print(distances[cur], '+', (cur, adj))
                 ndis = distances[cur] + self.getWeight(cur, adj)
 
                 if ndis < distances[adj]:

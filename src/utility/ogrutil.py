@@ -184,3 +184,10 @@ class UtilWriter(UtilReader):
             feature.SetGeometry(geometry)
         
         layer.CreateFeature(feature)
+
+
+def Point2Geometry(point):
+    geo = ogr.Geometry(ogr.wkbPoint)
+    geo.AddPoint(*point)
+
+    return geo

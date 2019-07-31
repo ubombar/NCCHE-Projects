@@ -22,45 +22,83 @@ class Road:
     
     def __abs__(self):
         return self.length
+
+class Stop:
+    def __init__(self, feature, connectedCrossFID):
+        self.connectedCrossFID = connectedCrossFID
+        self.urgency = feature.GetField('urgency')
+        self.id = feature.GetFID()
+
+class PathCollection:
+    def __init__(self, paths):
+        self.paths = paths
+
+    def save(self, fname):
+        writer = util.UtilWriter(fname, driver=DN_GEOJSON)
+        writer.makeLayer('routes', GT_Line, {'length':DT_Float})
+
+        for path in self.paths:
+            pathGeometry = path.getGeometry()
+            pathLength = pathGeometry.Length()
+            writer.saveFeature({'length':pathLength}, pathGeometry)
+        
+        writer.close()
     
 class Path:
     def __init__(self, graph, path, connector):
         self.graph = graph
         self.path = path
         self.connector = connector
+    
+    def getGeometry(self) -> Geometry:
+        routeGeometry = Geometry(GT_Line)
 
-        print(connector)
+        crossFID = self.path[0]
+        crossPointGeom = self.graph.crossObjects[crossFID].point
+        routeGeometry.AddPoint(*crossPointGeom.GetPoint())
+
+        for i in range(len(self.path)):
+            if i == 0: continue
+
+            crossFID = self.path[i]
+            crossFIDPrev = self.path[i - 1]
+
+            roadFID = self.connector.get((crossFIDPrev, crossFID))
+
+            if roadFID is None: 
+                roadFID = self.connector.get((crossFID, crossFIDPrev))
+            
+            roadGeometry = self.graph.roadObjects.get(roadFID).points
+
+            originalDirection = self.graph.crossGraph[roadFID][0] == crossFIDPrev
+            
+            for roadPoint in util.UtilPointIterator(roadGeometry, jump=1 if originalDirection else -1):
+                routeGeometry.AddPoint(*roadPoint)
+
+            crossPointGeom = self.graph.crossObjects[crossFID].point
+            routeGeometry.AddPoint(*crossPointGeom.GetPoint())
+        return routeGeometry
     
     def save(self, fname):
         writer = util.UtilWriter(fname, driver=DN_GEOJSON)
         writer.makeLayer('route', GT_Line, {'length':DT_Float})
 
-        length = 0
-        routeGeometry = Geometry(GT_Line)
-
-        for i in range(len(self.path)):
-            crossFID = self.path[i]
-
-            crossPointGeom = self.graph.crossObjects[crossFID].point
-            routeGeometry.AddPoint(*crossPointGeom.GetPoint())
-
-            if i == 0: continue
-
-            crossFIDPrev = self.path[i - 1]
-            roadFID = self.graph.getRoadByCrosses(crossFID, crossFIDPrev)
-            roadGeometry = self.graph.roadObjects[roadFID].points
-
-            for roadPoint in util.UtilPointIterator(roadGeometry, jump=1):
-                routeGeometry.AddPoint(*roadPoint)
-
+        routeGeometry = self.getGeometry()
+        length = routeGeometry.Length()
         writer.saveFeature({'length':length}, routeGeometry)
+        writer.close()
+
 
 class Router:
-    BUFFER = 15
-    def __init__(self, crosspath, roadpath):
+    ROAD_BUFFER = 15
+    STOP_BUFFER = 30
+
+    def __init__(self, crosspath, roadpath, stoppath):
         self.crossReader : util.UtilReader = util.UtilReader(crosspath)
         self.roadReader : util.UtilReader = util.UtilReader(roadpath)
+        self.stopReader : util.UtilReader = util.UtilReader(stoppath)
         self.mapgraph : graph.MapperGraph = graph.MapperGraph()
+        self.stopObjects = dict()
     
     def indexGraph(self):
         graphDict = defaultdict(list)
@@ -68,15 +106,22 @@ class Router:
         roadToFeatureDict = dict()
 
         for crossFeature in self.crossReader.getFeatureIterator():
-            crossGeometryBuffer = crossFeature.geometry().Buffer(Router.BUFFER)
+            crossGeometryRBuffer = crossFeature.geometry().Buffer(Router.ROAD_BUFFER)
+            crossGeometrySBuffer = crossFeature.geometry().Buffer(Router.STOP_BUFFER)
+
             crossFID = crossFeature.GetFID()
 
             self.mapgraph.addCross(Cross(crossFeature), idd=crossFID)
+            self.roadReader.setGeometryFilter(crossGeometryRBuffer)
+            self.stopReader.setGeometryFilter(crossGeometrySBuffer)
 
-            self.roadReader.setGeometryFilter(crossGeometryBuffer)
+            for stopFeature in self.stopReader.getFeatureIterator():
+                self.stopObjects[stopFeature.GetFID()] = Stop(stopFeature, crossFID)
 
             for roadFeature in self.roadReader.getFeatureIterator():
-                fromHead = roadFeature.geometry().Intersects(crossGeometryBuffer)
+                roadHeadGeometry = util.Point2Geometry(roadFeature.geometry().GetPoint(0))
+
+                fromHead = roadHeadGeometry.Intersects(crossGeometryRBuffer)
                 roadFID = roadFeature.GetFID()
                 roadDirected = roadFeature.GetField('directed') == 1
 
@@ -101,3 +146,23 @@ class Router:
     def getPath(self, crossFID1, crossFID2) -> Path:
         path, connector = self.mapgraph.doDijkstra(crossFID1, crossFID2)
         return Path(self.mapgraph, path, connector)
+    
+    def getPathCollection(self):
+        # TODO: reorder the stops. This is the where magic happens.
+        paths = []
+
+        stopFIDPrev = None
+
+        for stopFID, _ in self.stopObjects.items():
+            if stopFIDPrev is None:
+                stopFIDPrev = stopFID
+                continue
+
+            crossFID = self.stopObjects[stopFID].connectedCrossFID
+            crossFIDPrev = self.stopObjects[stopFIDPrev].connectedCrossFID
+
+            paths.append(self.getPath(crossFID, crossFIDPrev))
+
+            stopFIDPrev = stopFID
+        
+        return PathCollection(paths)

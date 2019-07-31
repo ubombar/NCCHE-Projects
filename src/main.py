@@ -2,8 +2,9 @@ from utility.ogrutil import *
 from utility.rgraph import *
 import utility.router as router
 
-r = router.Router('data/route/crosses.shp', 'data/route/roads.shp')
+r = router.Router('data/route/crosses.shp', 'data/route/roads.shp', 'data/route/stops.shp')
 r.indexGraph()
-path = r.getPath(4, 6)
+paths = r.getPathCollection()
 
-path.save('data/route/out/route.shp')
+paths.save('data/route/out/route.shp')
+print('done')

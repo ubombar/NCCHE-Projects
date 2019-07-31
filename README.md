@@ -1,11 +1,15 @@
 # NCCHE-Projects
-Small projects and duties I have done on my training at NCCHE. These works mostly focuses on GIS and Python.
+Small projects and duties I have done on my training at NCCHE. These works mostly focus on GIS and Python.
 
-For installation you need to setup the installation prosedure on book "Geoprocessing on Python" by Chris Garrad.
+For installation, you need to set up the installation procedure on the book "Geoprocessing on Python" by Chris Garrad.
 
-## APP1
-Finds the place, person located by examining the data.
+## Guesser
+By the given spatial data (points and timestamps), the program guesses the probability of a place by the hour.
 
-## APP2
-Finds the optimal path for collecting trash. Input files are in the data/app2 folder. Detailed explanation will be published after the end of the subspoject.
-![](image.png)
+## Mapp App
+Finds the optimal path for collecting patients. The goal is to index the roads from scratch and use graph traversal to find the shortest path (Dijkstra's Shortest Path is used). For now, it can find the path of given waypoints in order. But it is not the optimal path. This feature will be implemented in the feature.
+
+It is recommended to use QGIS for visualization.
+
+Example Image:
+![](img/readme.png)

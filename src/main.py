@@ -6,5 +6,5 @@ r = router.Router('data/route/crosses.shp', 'data/route/roads.shp', 'data/route/
 r.indexGraph()
 paths = r.getPathCollection()
 
-paths.save('data/route/out/route.shp')
+paths.save('data/route/out/route.geosjon')
 print('done')

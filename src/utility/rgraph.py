@@ -207,3 +207,37 @@ class MapperGraph:
             return [cid1] + path + [cid2], connectionDict
         
         return None
+        
+    def getCost(self, cid1, cid2):
+        if not (self.crossExists(cid1) and self.crossExists(cid2)):
+            raise Exception('Road does not exist')
+
+        if cid1 == cid2:
+            return 0
+
+        visited = set()
+        distances = collections.defaultdict(lambda: float('inf'))
+
+        heap = _SPHeap(key=lambda x: distances[x])
+
+        distances[cid1] = 0
+        heap.push(cid1)
+
+        while len(heap) != 0:
+            cur = heap.pop()
+            visited.add(cur)
+
+            if cur == cid2:
+                break
+            
+            for adj, _ in self.getAdjCrosses(cur, getrids=True):
+                if adj in visited:
+                    continue
+                
+                ndis = distances[cur] + self.getWeight(cur, adj)
+
+                if ndis < distances[adj]:
+                    distances[adj] = ndis
+                    heap.push(adj)
+        
+        return distances[cid2]

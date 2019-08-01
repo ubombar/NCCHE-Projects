@@ -4,8 +4,20 @@
 from utility import ogrutil as util
 from utility.ogrutil import DN_GEOJSON, GT_Line, DT_Float
 from utility import rgraph as graph
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from ogr import Geometry
+
+class CostFunction:
+    def __init__(self, router, costDist=0.1, costUrgency=1.2, useActualDistance=False):
+        self.router = router
+        self.costDist = costDist
+        self.costUrgency = costUrgency
+        self.useActualDistance = useActualDistance
+    
+    def __call__(self, cid1, cid2) -> float:
+        ## Calcualte cost
+
+        return 0
 
 class Cross:
     def __init__(self, feature):
@@ -24,7 +36,8 @@ class Road:
         return self.length
 
 class Stop:
-    def __init__(self, feature, connectedCrossFID):
+    def __init__(self, feature, connectedCrossFID, geometry):
+        self.geometry = geometry.Clone()
         self.connectedCrossFID = connectedCrossFID
         self.urgency = feature.GetField('urgency')
         self.id = feature.GetFID()
@@ -88,7 +101,6 @@ class Path:
         writer.saveFeature({'length':length}, routeGeometry)
         writer.close()
 
-
 class Router:
     ROAD_BUFFER = 15
     STOP_BUFFER = 30
@@ -97,8 +109,14 @@ class Router:
         self.crossReader : util.UtilReader = util.UtilReader(crosspath)
         self.roadReader : util.UtilReader = util.UtilReader(roadpath)
         self.stopReader : util.UtilReader = util.UtilReader(stoppath)
+
         self.mapgraph : graph.MapperGraph = graph.MapperGraph()
-        self.stopObjects = dict()
+
+        self.stopObjects = OrderedDict()
+        self.cost = CostFunction(self)
+    
+    def getCrossBtStopIndex(self, index=0): # bad practice!
+        return self.stopObjects.items()[index][0]
     
     def indexGraph(self):
         graphDict = defaultdict(list)
@@ -116,7 +134,7 @@ class Router:
             self.stopReader.setGeometryFilter(crossGeometrySBuffer)
 
             for stopFeature in self.stopReader.getFeatureIterator():
-                self.stopObjects[stopFeature.GetFID()] = Stop(stopFeature, crossFID)
+                self.stopObjects[stopFeature.GetFID()] = Stop(stopFeature, crossFID, crossFeature.geometry())
 
             for roadFeature in self.roadReader.getFeatureIterator():
                 roadHeadGeometry = util.Point2Geometry(roadFeature.geometry().GetPoint(0))
@@ -166,3 +184,15 @@ class Router:
             stopFIDPrev = stopFID
         
         return PathCollection(paths)
+    
+    def getOptimizedPathCollection(self, excludeStartEnd=True):
+        if excludeStartEnd:
+            pathCollection = self.getOptimizedPathCollection(excludeStartEnd=False)
+            pathCollection.addFront(self.getPath())
+
+        orderedStops = OrderedDict()
+
+        for i, stopFID in enumerate(self.stopObjects.items()):
+            currentCrossFID = self.stopObjects[0].connectedCrossFID
+
+        calccost = self.cost(cid1, cid2)

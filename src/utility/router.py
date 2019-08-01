@@ -186,6 +186,7 @@ class Router:
         return PathCollection(paths)
     
     def getOptimizedPathCollection(self, excludeStartEnd=True):
+        # TODO
         if excludeStartEnd:
             pathCollection = self.getOptimizedPathCollection(excludeStartEnd=False)
             pathCollection.addFront(self.getPath())

@@ -1,4 +1,3 @@
-src/utility/__pycache__/**
-src/utility/__pycache__
 reports
 reports/**
+*.pyc

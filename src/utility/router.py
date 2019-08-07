@@ -71,6 +71,7 @@ class Path:
         routeGeometry.AddPoint(*crossPointGeom.GetPoint())
 
         for i in range(len(self.path)):
+
             if i == 0: continue
 
             crossFID = self.path[i]
@@ -161,7 +162,15 @@ class Router:
             else: # road is not connected to any cross
                 pass
         
-    def getPath(self, crossFID1, crossFID2) -> Path:
+    def getPath(self, crossFID1=None, crossFID2=None) -> Path:
+        if crossFID1 is None and crossFID2 is None:
+            values = list(self.stopObjects.values())
+
+            crossFID1 = values[0].connectedCrossFID
+            crossFID2 = values[-1].connectedCrossFID
+
+            print(crossFID1, crossFID2)
+
         path, connector = self.mapgraph.doDijkstra(crossFID1, crossFID2)
         return Path(self.mapgraph, path, connector)
     

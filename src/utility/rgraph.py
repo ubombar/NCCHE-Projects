@@ -161,7 +161,7 @@ class MapperGraph:
 
     def doDijkstra(self, cid1, cid2):
         if not (self.crossExists(cid1) and self.crossExists(cid2)):
-            raise Exception('Road does not exist')
+            raise Exception('Cross does not exist')
 
         if cid1 == cid2:
             return [cid1]

@@ -6,16 +6,16 @@
         {
             "label": "Run Python File in SQLEnv",
             "type": "shell",
-            "command": "clear & /home/ubombar/miniconda3/envs/SQLEnv/bin/python src/main.py",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "command": "clear & /home/ubombar/miniconda3/envs/SQLEnv/bin/python src/main.py"
         },
         {
             "label": "Run Python File in Base",
             "type": "shell",
-            "command": "clear & /home/ubombar/miniconda3/bin/python src/main.py"
+            "command": "clear & /home/ubombar/miniconda3/bin/python src/main.py",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

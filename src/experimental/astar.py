@@ -1,82 +1,91 @@
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np 
-import math
-import random
+import collections as col 
+import heapq
+import matplotlib.pyplot as plt
 
-def make_array(shape=(50, 50), func=lambda x, y: x + y):
-    xhalf = shape[1] / 2
-    yhalf = shape[0] / 2
-    xres = 100 / xhalf
-    yres = 100 / yhalf
-
-    Z = np.zeros(shape)
-
-    for i in range(Z.shape[1]):
-        for j in range(Z.shape[0]):
-            x = (i - xhalf) * xres
-            y = (j - yhalf) * yres
-
-            Z[j, i] = func(x, y)
-    return Z
-
-def make_plot(Z):
-    xhalf = Z.shape[1] / 2
-    yhalf = Z.shape[0] / 2
-    xres = 100 / xhalf
-    yres = 100 / yhalf
-
-    fig, ax = plt.subplots(figsize=(13,8), subplot_kw={'projection': '3d'})
-
-    X = np.arange(-xhalf * xres, xhalf * xres, xres)
-    Y = np.arange(-yhalf * yres, yhalf * yres, yres)
-
-    X, Y = np.meshgrid(X, Y)
-    surf1 = ax.plot_surface(X, Y, Z, cmap=plt.cm.RdYlBu_r, antialiased=False)
-
-    ax.set_zlim(0, 1)
-    fig.colorbar(surf1)
-
-    plt.show()
-
-def func(x, y, allf=[(0, 60, 30, 30), (0, -60, 30, 30)], depression=0.003):
-    total = 0
-
-    for fun in allf:
-        total += math.exp(-(((x - fun[0])**2) / (2 * fun[2]**2) + ((y - fun[1])**2) / (2 * fun[3]**2)))
-
-    return (total / len(allf)) + (random.random() / 20) - (0.4 if random.randint(1, int(1 / depression)) == 1 else 0)
-
-def get_neighbors(i, j, Z):
-    row, col = Z.shape
-    bef = [(i + 1, j - 1), (i, j - 1), (i - 1, j - 1), (i + 1, j + 1), (i, j + 1), (i - 1, j + 1), (i + 1, j), (i - 1, j)]
-    aft = []
-
-    for x, y in bef:
-        if 0 <= x < row and 0 <= y < col: 
-            aft.append((x, y))
+class AStarGraph(object):
+    def __init__(self, shape=(10, 10), obstacles=set([1])):
+        self.field = np.zeros(shape, dtype=np.int8)
+        self.obstacles = obstacles
     
-    return [Z[x, y] for x, y in aft]
+    @staticmethod
+    def distance(a, b):
+        ax, ay = a
+        bx, by = b 
+        return np.sqrt((ax - bx)**2 + (ay - by)**2)
 
-def fill_singlecell_depressions(Z):
-    row, col = Z.shape
-    
-    for j in range(row):
-        for i in range(col):
-            minneighbor = min(get_neighbors(i, j, Z))
-            Z[i, j] = max(minneighbor, Z[i, j])
+    def adjacents(self, cur, boxsize=1):
+        row, col = self.field.shape
+        cx, cy = cur
+        possible = []
 
-def flow_directions(Z):
-    row, col = Z.shape
-    FD = np.zeros(Z.shape)
+        for i in range(-boxsize, boxsize + 1):
+            for j in range(-boxsize, boxsize + 1):
+                nx, ny = cx + i, cy + j
+
+                if 0 > nx or nx >= col or 0 > ny or ny >= row or self.field[ny, nx] in self.obstacles: # or abs(i) == abs(j):
+                    continue
+                
+                if i == j == 0:
+                    continue
+
+                possible.append((nx, ny))
+        return possible
     
-    for j in range(row):
-        for i in range(col):
-            pass
+    def find(self, s, t, heuristic=None, marker=None):
+        if heuristic is None: heuristic = AStarGraph.distance
+
+        visited = set()
+        distance = col.defaultdict(lambda: float('inf'))
+        heap = []
+        previous = dict()
+        
+        distance[s] = 0
+        heapq.heappush(heap, (distance[s], s))
+
+        while len(heap) != 0:
+            dis, current = heapq.heappop(heap)
+            visited.add(current)
+
+            if current == t:
+                break
+
+            for adjacent in self.adjacents(current):
+                if adjacent in visited: continue
+
+                newdistance = dis + heuristic(current, adjacent) + heuristic(current, t)
+
+                if distance[adjacent] > newdistance:
+                    distance[adjacent] = newdistance
+                    heapq.heappush(heap, (distance[adjacent], adjacent))
+                    previous[adjacent] = current
+        
+        if t in visited:
+            path = list()
+            p = previous[t]
+
+            while p != s:
+                path = [p] + path
+                p = previous[p]
             
+            path = [s] + path + [t]
 
-Z = make_array(func=func)
+            if marker is not None:
+                A = np.zeros(self.field.shape)
+                for x, y in path:
+                    A[y, x] = marker
+                return path, A
+            
+            return path
 
-fill_singlecell_depressions(Z)
+        return None
 
-make_plot(Z)
+graph = AStarGraph((151, 151))
+
+for i in range(0, 150):
+    graph.field[150-i, 80] = 1
+
+path, A = graph.find((0, 150), (150, 150), marker=9)
+
+plt.imshow(A)
+plt.show()

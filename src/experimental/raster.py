@@ -1,5 +1,5 @@
 import gdal
-import numpy as np 
+import numpy as np
 from utility import ogrutil as util
 import ogr
 from mpl_toolkits.mplot3d import Axes3D
@@ -31,7 +31,7 @@ X, Y = np.meshgrid(X, Y)
 surf = ax.plot_surface(X,Y,dem, rstride=1, cstride=1, cmap=plt.cm.RdYlBu_r, vmin=0, vmax=10, linewidth=0, antialiased=True)
 
 ax.set_zlim(0, 10) # to make it stand out less
-ax.view_init(60,-105)
+ax.view_init(60,-60)
 
 fig.colorbar(surf, shrink=0.4, aspect=20)
 

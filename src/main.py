@@ -1,7 +1,7 @@
 # import utility.router as router
 # import experimental.raster as raster
 # import math
-import experimental.raster
+import experimental.surface
 
 '''
     r = router.Router('data/route/crosses.shp', 'data/route/roads.shp', 'data/route/stops.shp')

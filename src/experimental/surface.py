@@ -73,4 +73,4 @@ class GaussianFunction(object):
         return z / 2 # if z / 2 > .5 else 0        
 
 prob = Surface(GaussianFunction())
-prob.animate(save=True)
+prob.animate(save=False)

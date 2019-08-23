@@ -16,6 +16,11 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Build Latex File",
+            "type": "shell",
+            "command": "clear & pdflatex reports/week7/*.tex"
         }
     ]
 }

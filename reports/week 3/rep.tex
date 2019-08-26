@@ -1,0 +1,42 @@
+\documentclass{article}
+\title{Short Term Scholar Weekly Progress Report 3}
+\author{Ufuk Bombar}
+\date{Jul 28 2019}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[a4paper, total={6.1in, 10in}]{geometry}
+\usepackage[backend=bibtex,
+style=numeric,
+bibencoding=ascii
+%style=alphabetic
+%style=reading
+]{biblatex}
+
+\addbibresource{rep.bib}
+
+\begin{document}
+\maketitle
+
+\subparagraph{}
+This week, the goal was to get experience on trash car application and finish the reading material. Developing the piece of program that translates the road and junction data to a fully operational graph representation, was the priority.
+
+\subparagraph{}
+In the first day, I started working by writing the last weeks progress report. In my report, I needed to add two figures to compare the differences of DFS and BFS. These are the search algorithms that makes the foundation of graph traversing. I needed them to find the shortest path. However, This way of searching was inefficient. Therefore, even dough I have finished my application I decided to optimize by focusing on finding more efficient methods to implement. I was aware of the Dijkstra's Shortest Path Algorithm\cite{shortestpath}. I studied the algorithm to make an acceptable implementation. In the end I found out that the way that I represented the geographical data was not compatible with the existing data. Thereby, I created a new file in my project directory to make a new, more adequate geographical data. I spent my time looking for an efficient way to represent it.
+
+\subparagraph{}
+In the second day, I found more efficient way. The old way, was to express the roads in one file, and the intersections and the tips of the roads were understood as junctions by the algorithm. This implementation also added each point in the roads as a node, it caused redundant use of memory by that. The new method of representation added the junction file. This file contained the points of a junction, and interpreted as a node by the algorithm. The problem was to represent the junctions as nodes and connections as roads. I wrote a Python class for that in this day. Also implemented the basic functions, for example; add node, add connection, get child nodes etc.
+    
+\subparagraph{}
+In Wednesday, my focus was about, finishing the translation algorithm. I also finished the algorithm but it was flawed. There were small problems that effected the run time of the program. The majority of my time was about fixing these bugs. Also, with my extra time I read the last chapter of my reading material. It was about the spatial reference systems. I learned that, an SRS, represents the 3 dimensional world in a model called ‘datum’. Calculations performed on datum's requires more time time that a Cartesian Coordinate System, because, datum's are curved objects, and complicated formulas are necessary for calculations on those objects. ‘NAD83’ for example a datum representation that focuses on North America (North American Datum) revised on 1983\cite{nad83}. These datum’s cannot be used outside their recommended domains, if so the error will be so high that calculations derived from this datum can be wrong. But because it is practically arduous, the projections are used in SRSs. They describe the translation between a datum and 2 dimensional coordinate system.
+    
+\subparagraph{}
+In Thursday, I went to a presentation about fluid mechanics. The presenter discussed the experimental results on intersecting watercourses. It was a complicated topic for me because of all the jargon. 
+    
+\subparagraph{}
+In the last day, I studied briefly on by algorithm. On the implementation I valued performance, therefore, I tried to optimize the graph more. Because of that, I made the program more faulty than before. This experience become a valuable lesson for me. I learned that before making a change on any software, think about the methods. I altered the program without any concrete plan, then I spoiled it. 
+
+\printbibliography
+
+\end{document}

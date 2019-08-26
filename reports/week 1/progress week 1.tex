@@ -1,0 +1,40 @@
+\documentclass{article}
+\title{Short Term Scholar Weekly Progress Report 1}
+\author{Ufuk Bombar}
+\date{Jul 12 2019}
+
+\usepackage{amsmath}
+\usepackage[a4paper, total={6.1in, 10in}]{geometry}
+\usepackage[backend=bibtex,
+style=numeric,
+bibencoding=ascii
+%style=alphabetic
+%style=reading
+]{biblatex}
+
+\addbibresource{sample.bib}
+
+\begin{document}
+\maketitle
+
+\subparagraph{}
+The goal of this week was to complete the chapters of the material about geographical processing to have an understanding of what happens behind the scenes and reach a point than I can also develop my applications on different platforms.
+
+\subparagraph{}
+I started the first day with a briefing with Dr. Ramalingam. We talked about the usage of geographic information systems, I learned that the projection plays important role and many cases it is a big problem that needs to be addressed. I acknowledged that longitude and latitude is just one way to show a position on earth. There are international standards such as “WGS 84 / Pseudo-Mercator” that minimizes the error caused by projection depending the focus of projection. The error is of course due to the transformation from 3 dimensional geometry to a 2 dimensional one. After the briefing we decide to for me to have two reading materials \cite{geoprocessing}. The first material, “Geoprocessing with Python“, briefly introduces the concept of vector and raster which are data structures used in geo-processing. The book uses a python library called GDAL. GDAL is an open source library which means anyone willing to help can contribute to the project. This comes handy in many aspects, for example; GDAL is originally written in C++ and by the efforts of many contributors the bindings for Python made. This made possible many different applications because Python is more elastic that C++. The second book, “Python Essential Reference Fourth Edition” \cite{pythonreference} explains advanced concepts of python such as memory management, networking and other default libraries comes with python. First day I spent my time on reading more on the projection methods from   the first book.
+
+\subparagraph{}
+On my second day, I started other chapters to have a grasp on the basics of python programming language. Previously I worked with Python this is why I am familiar with it however its been long time ago. For sake of remembering the language I studied my previous application named “Game of Life” \cite{gameoflife}. When I become familiar with python again I continue on the chapters of my first book. Also when I finished the chapter on Python I searched for robot localization because It is related with geoproessing and I am interested In mobile systems. I discovered some GitHub \cite{githubrepo} repositories written for helping robotic localization problem. Additionally I have downloaded an article called “Localization: An Introduction” \cite{robot}.
+
+\subparagraph{}
+On my third day, I finished the chapter about reading vector data from a file. This taught me the vector data formats and gave me an understanding of how library is operating around data. The part responsible for data manipulation is actually a sub library inside GDAL called OGR. OGR contains all the functions and definitions for developer to read write and do simple operations. Also I created a sample vector data for me on QGIS which is also a open source program, designed to present geographical data. Then I developed a simple program that uses this data to do a prediction. The data is merely a set of points which have id and hour of the day as an attribute and additionally a set of areas which have names. The points represents the places I have been and the areas are the buildings. By these two files my program predicts where I might be in a given hour. After finishing the program I have done some research about Android applications to make one for saving the location and peripheral information to create a data set to work on. I started developing it on Android Studio. I learned the existence of Android Services. They are processes that runs at the background and can be communicated by Activities via Broadcasts \cite{andriod}.
+
+\subparagraph{}
+After three days, I went to Human Resources to fill some paperwork. After that I spend my time learning how to write and manipulate vector data. I learned that OGR uses drivers that acts as wrappers for different file types. And these drivers can have different properties. For example “GeoJSON” and “ESRI Shapefile” are both vector file formats. However it is impossible to alter and save changes to GeoJSON file because the driver does not supports this kind of operation. On the other hand Shapefiles does.
+
+\subparagraph{}
+Last day, I went to a filed trip to National Sedimentation Laboratory. The assistants showed the previous experiments. The most stimulating one was about the properties of soil in relation to rain. After then, I started my weekly progress report.
+
+\printbibliography
+
+\end{document}

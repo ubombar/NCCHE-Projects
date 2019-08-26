@@ -1,0 +1,131 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{geotransformation}{book}{}
+      \name{author}{1}{}{%
+        {{hash=2dc17b2771cac626766cc8bdfb48d0cd}{%
+           family={Garrard},
+           familyi={G\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Manning}%
+      }
+      \strng{namehash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \strng{fullhash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \strng{bibnamehash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \strng{authorbibnamehash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \strng{authornamehash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \strng{authorfullhash}{2dc17b2771cac626766cc8bdfb48d0cd}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9781617292149}
+      \field{title}{Geoprocessing with Python}
+      \field{year}{2016}
+    \endentry
+    \entry{astar}{online}{}
+      \name{author}{1}{}{%
+        {{hash=2adb1d4817a483d140c701274c361fa5}{%
+           family={Patel},
+           familyi={P\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{2adb1d4817a483d140c701274c361fa5}
+      \strng{fullhash}{2adb1d4817a483d140c701274c361fa5}
+      \strng{bibnamehash}{2adb1d4817a483d140c701274c361fa5}
+      \strng{authorbibnamehash}{2adb1d4817a483d140c701274c361fa5}
+      \strng{authornamehash}{2adb1d4817a483d140c701274c361fa5}
+      \strng{authorfullhash}{2adb1d4817a483d140c701274c361fa5}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(accessed: 05.8.2019)}
+      \field{title}{From Amit’s Thoughts on Pathfinding: Introduction to A*}
+      \verb{urlraw}
+      \verb http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
+      \endverb
+      \verb{url}
+      \verb http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
+      \endverb
+    \endentry
+    \entry{go}{online}{}
+      \name{author}{1}{}{%
+        {{hash=56972037ff244f9e8dd1ac8ec3cfc265}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={Go},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \strng{fullhash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \strng{bibnamehash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \strng{authorbibnamehash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \strng{authornamehash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \strng{authorfullhash}{56972037ff244f9e8dd1ac8ec3cfc265}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(accessed: 05.8.2019)}
+      \field{title}{Documentation}
+      \verb{urlraw}
+      \verb https://golang.org/doc/
+      \endverb
+      \verb{url}
+      \verb https://golang.org/doc/
+      \endverb
+    \endentry
+    \entry{numpy}{book}{}
+      \name{author}{1}{}{%
+        {{hash=1834da14d5c47db9ca6a99fa83994438}{%
+           family={Walt\bibnamedelimb et\bibnamedelima al},
+           familyi={W\bibinitperiod\bibinitdelim e\bibinitperiod\bibinitdelim a\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{1834da14d5c47db9ca6a99fa83994438}
+      \strng{fullhash}{1834da14d5c47db9ca6a99fa83994438}
+      \strng{bibnamehash}{1834da14d5c47db9ca6a99fa83994438}
+      \strng{authorbibnamehash}{1834da14d5c47db9ca6a99fa83994438}
+      \strng{authornamehash}{1834da14d5c47db9ca6a99fa83994438}
+      \strng{authorfullhash}{1834da14d5c47db9ca6a99fa83994438}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{11851135}
+      \field{title}{The NumPy Array: A Structure for Efficient Numerical Computation}
+      \field{year}{2011}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

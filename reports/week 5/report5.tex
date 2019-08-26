@@ -1,0 +1,37 @@
+\documentclass[a4paper]{article}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage{biblatex}
+\usepackage{graphics}
+
+\title{Short Term Scholar Weekly Progress Report 5}
+\author{Ufuk Bombar}
+\date{August 12, 2019}
+
+\addbibresource{bib.bib}
+
+\begin{document}
+
+    \maketitle{}
+
+    
+    \subparagraph{}
+    The goal of the week was, progressing on the book and learning new technologies. I did not proceed as I expected in the book, therefore most of my time spent on learning new technologies.
+
+    \subparagraph{}
+    On Monday, I started my day by writing my previous weekly progress report. In that report, I wanted to add a code snippet. For that purpose, I learned a new Latex package called ‘listings’. This module is used to present large text files, and for many, code snippets. I also saw that the files can be highlighted according to language keywords. After filling out the report, I started to work on Chapter 10. This chapter is about manipulative and informative operations that can be performed on raster files. For example, re-projection is used to reshape a raster file, using re-sampling algorithms. The most common algorithm is nearest-neighbor, which takes the pixel value from the nearest pixel. This algorithm works faster than many others since calculation per pixel is lower than most of the others. Also, calculating a histogram from raster files is done by the GDAL library.
+    
+    \subparagraph{}
+        On Tuesday, I had researched about optimal path algorithms. I admit that Dijkstra was not the only option on pathfinding, instead, I learned and implemented A* algorithm on my graph. After that, I observed a bug in the shortest path algorithm. The bug was the overlapping of different routes and intersecting in an unwanted way, and even in some parts, the routes were wrongly directed. I tried to resolve this bug for the rest of the day.
+    
+    \subparagraph{}
+    On Wednesday, I refreshed my knowledge about previous subjects and chapters I have studied. After that, I started to learn more about Python language syntax. I acknowledged the decorators in Python. They are known as a function that wraps other functions. For example, a function has written to perform a scientific computation. A decorator can be added on top of it to calculate the computation time. However, this simple idea gets complicated in practice, when multiple decorators are added to a single function. The decorators are taking other decorators as parameters, and perform calculations according to other decorates instead of a particular function. This problem is solved by adding extra parameters to decorators.
+    
+    \subparagraph{}
+        On Thursday, I learned the basics of NumPy in chapter 11. Also, I read the first chapter of a book denoted to NumPy by Travis E. Oliphant \cite{numpybook}. NumPy is a general data library for numeric containers. It consists of N-dimensional homogeneous array objects for scientific computations. This book covers all of the libraries but since it is written in 2006, I continue on the Geoprocessing with Python which is more up to date. Also, I tried to install MySQL server to my computer to refresh my knowledge about databases. Unfortunately, the newer version of MySQL fills the default password for root user with a random one rather than leaving empty. This is why I have spent my whole time trying to login to the server. But at the end, I managed to change the password and access to the database via Python MySQL connector.
+    
+    \subparagraph{}
+    On Friday, I started to search for other database types. My supervisors recommended me to learn PostgreSQL, which have a similar structure to MySQL. Thereby, I watched a video lecture by Free Code academy \cite{postgresql}. I learned the basic structure of SQL of Postgres.
+
+    \printbibliography    
+\end{document}

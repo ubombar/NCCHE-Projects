@@ -1,0 +1,15 @@
+[0] Config.pm:304> INFO - This is Biber 2.12
+[0] Config.pm:307> INFO - Logfile is 'report5.blg'
+[28] biber:315> INFO - === Mon Aug 12, 2019, 12:32:47
+[52] Biber.pm:371> INFO - Reading 'report5.bcf'
+[116] Biber.pm:889> INFO - Found 2 citekeys in bib section 0
+[129] Biber.pm:4093> INFO - Processing section 0
+[139] Biber.pm:4254> INFO - Looking for bibtex format file 'bib.bib' for section 0
+[140] bibtex.pm:1512> INFO - LaTeX decoding ...
+[144] bibtex.pm:1329> INFO - Found BibTeX data source 'bib.bib'
+[175] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[175] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[175] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[175] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[182] bbl.pm:636> INFO - Writing 'report5.bbl' with encoding 'UTF-8'
+[183] bbl.pm:739> INFO - Output to report5.bbl

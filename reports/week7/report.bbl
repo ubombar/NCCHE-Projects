@@ -1,0 +1,120 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{arcgis2}{article}{}
+      \name{author}{3}{}{%
+        {{hash=fce1b1178047869da145416183e25faa}{%
+           family={Tarboton},
+           familyi={T\bibinitperiod},
+           given={David\bibnamedelima G},
+           giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=f16ea03f390cc6ca486544aef2046c4f}{%
+           family={Bras},
+           familyi={B\bibinitperiod},
+           given={Rafael\bibnamedelima L},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=0f7b1ddde615073efea1fbc1ee1306a3}{%
+           family={Rodriguez-Iturbe},
+           familyi={R\bibinithyphendelim I\bibinitperiod},
+           given={Ignacio},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{563e19f09779bdfd40579affb51d4406}
+      \strng{fullhash}{563e19f09779bdfd40579affb51d4406}
+      \strng{bibnamehash}{563e19f09779bdfd40579affb51d4406}
+      \strng{authorbibnamehash}{563e19f09779bdfd40579affb51d4406}
+      \strng{authornamehash}{563e19f09779bdfd40579affb51d4406}
+      \strng{authorfullhash}{563e19f09779bdfd40579affb51d4406}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Channel networks with artibtrary drainage density or resolution can be extracted from digital elevation data. However, for digital elevation data derived networks to be useful they have to be extracted at the correct length scale or drainage density. Here we suggest a criterion for determining the appropriate drainage density at which to extract networks from digital elevation data. The criterion is basically to extract the highest resolution (highest drainage density) network that satisfies scaling laws that have traditionally been found to hold for channel networks. Procedures that use this criterion are presented and tested on 21 digital elevation data sets well distributed throughout the US.}
+      \field{isbn}{1099-1085}
+      \field{issn}{1099-1085}
+      \field{journaltitle}{Hydrological Processes}
+      \field{number}{September 1990}
+      \field{title}{{Tarboton{\_}et{\_}al-1991-Hydrological{\_}Processes}}
+      \field{volume}{5}
+      \field{year}{1991}
+      \field{pages}{81\bibrangedash 100}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1002/hyp.3360050107
+      \endverb
+      \verb{file}
+      \verb :home/ubombar/Downloads/hp91.pdf:pdf
+      \endverb
+      \keyw{basins mapping cartography,drainage density digital elevation,models fluvial geomorphology river}
+    \endentry
+    \entry{arcgis1}{online}{}
+      \name{author}{1}{}{%
+        {{hash=5f51cb6d1597fdab4e4c19442e814511}{%
+           family={Team},
+           familyi={T\bibinitperiod},
+           given={ArcGIS},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {esri}%
+      }
+      \strng{namehash}{5f51cb6d1597fdab4e4c19442e814511}
+      \strng{fullhash}{5f51cb6d1597fdab4e4c19442e814511}
+      \strng{bibnamehash}{5f51cb6d1597fdab4e4c19442e814511}
+      \strng{authorbibnamehash}{5f51cb6d1597fdab4e4c19442e814511}
+      \strng{authornamehash}{5f51cb6d1597fdab4e4c19442e814511}
+      \strng{authorfullhash}{5f51cb6d1597fdab4e4c19442e814511}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(accessed: 26.8.2019)}
+      \field{title}{How Flow Accumulation works}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://pro.arcgis.com/en/pro-app/tool-reference/spatial-analyst/how-flow-accumulation-works.htm
+      \endverb
+      \verb{url}
+      \verb https://pro.arcgis.com/en/pro-app/tool-reference/spatial-analyst/how-flow-accumulation-works.htm
+      \endverb
+    \endentry
+    \entry{mendeley}{online}{}
+      \list{organization}{1}{%
+        {Youtube}%
+      }
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labeltitlesource}{title}
+      \field{title}{What is Mendeley?}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.youtube.com/watch?v=3sMfeS0uAjQ
+      \endverb
+      \verb{url}
+      \verb https://www.youtube.com/watch?v=3sMfeS0uAjQ
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

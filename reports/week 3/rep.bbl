@@ -1,0 +1,67 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nty/global//global/global}
+  \entry{nad83}{book}{}
+    \name{author}{1}{}{%
+      {{hash=CG}{%
+         family={Chris},
+         familyi={C\bibinitperiod},
+         given={Garrard},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Manning}%
+    }
+    \strng{namehash}{CG1}
+    \strng{fullhash}{CG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{isbn}{9781617292149}
+    \field{title}{Geoprocessing with Python}
+    \field{year}{2016}
+  \endentry
+
+  \entry{shortestpath}{article}{}
+    \name{author}{1}{}{%
+      {{hash=JA}{%
+         family={Javaid},
+         familyi={J\bibinitperiod},
+         given={Adeel},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JA1}
+    \strng{fullhash}{JA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \verb{doi}
+    \verb 10.2139/ssrn.2340905
+    \endverb
+    \field{title}{Understanding Dijkstra Algorithm}
+    \field{journaltitle}{SSRN Electronic Journal}
+    \field{month}{01}
+    \field{year}{2013}
+  \endentry
+\enddatalist
+\endinput
